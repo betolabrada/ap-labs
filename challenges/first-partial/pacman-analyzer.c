@@ -133,12 +133,16 @@ void analizeLog(char *logFile, char *report) {
 
         // Find which action is performed in package
         if (strcmp(in_action, INSTALLED) == 0) {
+            if (strcmp(current->inst_date, "-") != 0) { // Package is reinstalled
+                printf("reinstalled %s\n", current->name);
+                current->upgrades = 0;
+                removed--; 
+                upgraded--;
+            }
             strcpy(current->inst_date, in_datetime);
-            installed++;
         } else if (strcmp(in_action, UPGRADED) == 0) {
             strcpy(current->upgd_date, in_datetime);
-            current->upgrades++;
-            upgraded++;
+            if (current->upgrades++ == 0) upgraded++;           
         } else if (strcmp(in_action, REMOVED) == 0) {
             strcpy(current->rmvd_date, in_datetime);
             removed++;
@@ -157,7 +161,8 @@ void analizeLog(char *logFile, char *report) {
         }
 
     }
-
+    installed = size;     
+    
     printf("Creating report\n");
     writeReport(fd_report, packages, size, installed, removed, upgraded);
     printf("Report is generated at: [%s]\n", report);
