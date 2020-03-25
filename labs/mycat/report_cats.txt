@@ -1,0 +1,18 @@
+I used ./mycat and cat on these files:
+- bible.txt (size 4047392)
+- pi.txt (size 1000000)
+- a sql database (size 428715)
+- the src code of my program mycat.c (size 854)
+all sizes are in bytes
+total: 5476961 B aprox 5.4 MB
+
+results:
+
+with mycat
+- time ./mycat bible.txt pi.txt facilit1_axios_dev_db.sql mycat.c
+- result: real 0 minutes 22.830 seconds
+
+with linux cat
+- time cat bible.txt pi.txt facilit1_axios_dev_db.sql mycat.c
+- result: real 0 minutes 7.752 seconds
+
