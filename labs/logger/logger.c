@@ -3,7 +3,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <time.h>
-
+#include <signal.h>
 
 void ftime(char * buf, int size) {
 
@@ -104,5 +104,7 @@ int panicf(const char *format, ...) {
 	fprintf(stdout, "\n");
 
 	fflush(stdout);
+
+	raise(SIGABRT);
 }
 
