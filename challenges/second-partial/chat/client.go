@@ -15,7 +15,29 @@ import (
 
 //!+
 func main() {
-	conn, err := net.Dial("tcp", "localhost:8000")
+
+	if len(os.Args) < 5 {
+		log.Println("Usage: ./client -user <user> -server <server:port>")
+		os.Exit(1)
+	}
+
+	var user string
+	var server string
+
+	if os.Args[1] == "-user" && os.Args[3] == "-server" {
+		user = os.Args[2]
+		server = os.Args[4]
+	} else if os.Args[1] == "-server" && os.Args[3] == "-user" {
+		server = os.Args[2]
+		user = os.Args[4]
+	} else {
+		log.Println("Check your parameters")
+		os.Exit(1)
+	}
+
+	log.Println(user)
+
+	conn, err := net.Dial("tcp", server)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,6 +47,7 @@ func main() {
 		log.Println("done")
 		done <- struct{}{} // signal the main goroutine
 	}()
+	io.WriteString(conn, user)
 	mustCopy(conn, os.Stdin)
 	conn.Close()
 	<-done // wait for background goroutine to finish
