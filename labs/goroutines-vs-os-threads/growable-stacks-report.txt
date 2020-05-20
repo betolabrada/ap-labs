@@ -1,0 +1,6 @@
+Before pipe creation: 
+Sys = 1 MiB 
+After pipe creation: 
+Sys = 133 MiB 
+Time to get in all pipes: 222.3961ms
+The pipe creation is created in 1000000 so you can se a high impact in time and memory, if you do 9999999 pipelines you will get an SO
